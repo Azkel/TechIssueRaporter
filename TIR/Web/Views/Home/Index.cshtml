@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<Issue>
+@using Web.Models.IssueModels;
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -15,23 +17,25 @@
         </tr>
     </thead>
     <tbody>
+        @foreach(var issue in Model)
+        {
         <tr>
-            <td>#1</td>
-            <td>Panelowa 2</td>
-            <td>RZUTNIK NIE DZIAŁA</td>
-            <td>21:37</td>
-            <td>Cebul</td>
-            <td>Odjebane perfekcyjnie</td>
+            <td>@issue.Id</td>
+            <td>@issue.Room</td>
+            <td>@issue.Description</td>
+            <td>@issue.ReportDate.ToLocalTime()</td>
+            <td>@issue.LastUpdate.ToLocalTime()</td>
+            <td>@issue.State</td>
             <td>
-                <form class="pure-form pure-form-stacked">
-                    <select id="state">
-                        <option>Biorę się za to</option>
-                        <option>Odjebane perfekcyjnie</option>
-                        <option>U mnie działa</option>
-                    </select>
-                    <button class="pure-button">Zapisz</button>
-                </form>
+                @Html.PartialAsync("_ChangeState", new IssueFormModel()
+           {
+               Id = issue.Id,
+               State = issue.State
+
+           })
             </td>
         </tr>
+
+        }
     </tbody>
 </table>
