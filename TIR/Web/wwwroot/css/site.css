@@ -1,6 +1,8 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    margin-top: 20px;
+    background-color: #f7f7f7;
 }
 
 /* Wrapping element */
@@ -10,26 +12,39 @@
     padding-right: 15px;
 }
 
-/* Carousel */
-.carousel-caption p {
-    font-size: 20px;
-    line-height: 1.4;
+.pure-menu {
+    padding: 0.5em;
+    color: #edf9ff;
+    background-color: #038fd2;
 }
 
-/* Make .svg files in the carousel display properly in older browsers */
-.carousel-inner .item img[src$=".svg"] {
-    width: 100%;
-}
-
-/* QR code generator */
-#qrCode {
-    margin: 15px;
-}
-
-/* Hide/rearrange for smaller screens */
-@media screen and (max-width: 767px) {
-    /* Hide captions */
-    .carousel-caption {
-        display: none;
+    .pure-menu a {
+        color: #edf9ff;
+        text-decoration: none;
     }
+
+        .pure-menu a:hover {
+            color: #edf9ff;
+        }
+
+.pure-menu-heading {
+    font-weight: 400;
+    font-size: 120%;
+}
+
+.pure-menu-list {
+    float: right;
+}
+
+.pure-menu-link:hover {
+    background-color: #085f89;
+}
+
+.pure-table thead, .pure-button {
+    background-color: #038fd2;
+    color: white;
+}
+
+.pure-form {
+    text-align: center;
 }

@@ -1,4 +1,37 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-@DateTime.Now 
+
+<table class="pure-table pure-table-bordered pure-table-striped" align="center">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Sala</th>
+            <th>Problem</th>
+            <th>Godzina Zgłoszenia</th>
+            <th>Ostatniej zmiany dokonał (Przypisane do)</th>
+            <th>Status</th>
+            <th>Zmień status</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>#1</td>
+            <td>Panelowa 2</td>
+            <td>RZUTNIK NIE DZIAŁA</td>
+            <td>21:37</td>
+            <td>Cebul</td>
+            <td>Odjebane perfekcyjnie</td>
+            <td>
+                <form class="pure-form pure-form-stacked">
+                    <select id="state">
+                        <option>Biorę się za to</option>
+                        <option>Odjebane perfekcyjnie</option>
+                        <option>U mnie działa</option>
+                    </select>
+                    <button class="pure-button">Zapisz</button>
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>

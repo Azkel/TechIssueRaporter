@@ -1,0 +1,47 @@
+﻿@using Viewer.Models
+@model List<Issue>
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<table class="table">
+    <tr>
+        <th>
+            Added Date
+        </th>
+        <th>Is assigned?</th>
+        <th>Assigned to</th>
+        <th>Changed Date</th>
+        <th>Room</th>
+        <th>
+            Description
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Added</td>
+            <td>@item.Assigned</td>
+            <td>@item.AssignedTo</td>
+            <td>@item.Changed</td>
+            <td>@item.Room</td>
+            <td>@item.Description</td>
+        </tr>
+    }
+</table>
+
+@section scripts {
+<script type="text/javascript">
+        $(function () {
+            // Declare a proxy to reference the hub.
+            var chat = $.connection.issueHub;
+            // Create a function that the hub can call to broadcast messages.
+            chat.client.refreshWindow = function (name, message) {
+                location.reload();
+            };
+            // Get the user name and store it to prepend to messages.
+            // Start the connection.
+            $.connection.hub.start();
+        });
+</script>
+    }
