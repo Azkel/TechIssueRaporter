@@ -1,52 +1,41 @@
 ﻿@model IEnumerable<Issue>
 @using Web.Models.IssueModels;
 @{
-    ViewData["Title"] = "Issue List";
+    ViewData["Title"] = "Home Page";
 }
 
 <table class="pure-table pure-table-bordered pure-table-striped" align="center">
     <thead>
         <tr>
-            <th>Room</th>
-            <th>Description</th>
-            <th>Report Date</th>
-            <th>Last Update</th>
-            <th>Update by</th>
+            <th>#</th>
+            <th>Sala</th>
+            <th>Problem</th>
+            <th>Godzina Zgłoszenia</th>
+            <th>Ostatniej zmiany dokonał (Przypisane do)</th>
             <th>Status</th>
-            <th>Change status</th>
+            <th>Zmień status</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var issue in Model)
+        @foreach(var issue in Model)
         {
-            <tr>
-                <td>@issue.Room</td>
-                <td>@issue.Description</td>
-                <td>@issue.ReportDate.ToString("dd-MM-yyyy HH:mm")</td>
-                <td>@issue.AssignedTo</td>
-                <td>@issue.LastUpdate.ToString("dd-MM-yyyy HH:mm")</td>
-                <td>@issue.State</td>
-                <td>
-                    @Html.Partial("_ChangeState", new IssueFormModel()
-                    {
-                        Id = issue.Id,
-                        State = issue.State
+        <tr>
+            <td>@issue.Id</td>
+            <td>@issue.Room</td>
+            <td>@issue.Description</td>
+            <td>@issue.ReportDate.ToLocalTime()</td>
+            <td>@issue.LastUpdate.ToLocalTime()</td>
+            <td>@issue.State</td>
+            <td>
+                @Html.PartialAsync("_ChangeState", new IssueFormModel()
+           {
+               Id = issue.Id,
+               State = issue.State
 
-                    })
-                </td>
-            </tr>
+           })
+            </td>
+        </tr>
 
         }
     </tbody>
 </table>
-
-<div style="display: none;">
-    <audio controls autoplay>
-        <source src="~/Navi.mp3" type="audio/mp3">
-    </audio>
-</div>
-
-@section Scripts {
-
-    <script src="~/js/site.js" asp-append-version="true"></script>
-}

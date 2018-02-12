@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Web.Data;
@@ -22,14 +21,9 @@ namespace Web.Controllers
             this.context = context;
         }
 
-        [Authorize]
         public IActionResult Index()
         {
-            if(User.IsInRole("Room"))
-            {
-                return RedirectToAction("CreateIssue", "Issue", null);
-            }
-            return View(context.Issues.ToList().OrderByDescending(x => x.ReportDate));
+            return View(context.Issues.ToList().OrderBy(x => x.ReportDate));
         }
 
 
