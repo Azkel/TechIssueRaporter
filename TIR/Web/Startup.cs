@@ -28,7 +28,7 @@ namespace Web
         {
             
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer("DefaultConnection"));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
@@ -41,11 +41,12 @@ namespace Web
             services.AddSignalR();
 
             services.AddMvc();
+            
         }
 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> rolesManager)
         {
             if (env.IsDevelopment())
             {
@@ -64,6 +65,8 @@ namespace Web
 
             app.UseAuthentication();
 
+            ConfigureSeedData(userManager, rolesManager);
+
             app.UseSignalR(routes =>
             {
                 routes.MapHub<IndexHub>("hub");
@@ -75,6 +78,46 @@ namespace Web
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+        public static void ConfigureSeedData(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> rolesManager)
+        {
+            if(!rolesManager.RoleExistsAsync("Admin").Result)
+            {
+                var dupa = rolesManager.CreateAsync(new IdentityRole() {
+                    Name = "Admin"
+                }).Result;
+            }
+            if (!rolesManager.RoleExistsAsync("TechnicalUser").Result)
+            {
+                var dupa = rolesManager.CreateAsync(new IdentityRole()
+                {
+                    Name = "TechnicalUser"
+                }).Result;
+            }
+            if (!rolesManager.RoleExistsAsync("Room").Result)
+            {
+                var dupa = rolesManager.CreateAsync(new IdentityRole()
+                {
+                    Name = "Room"
+                }).Result;
+            }
+
+            if (userManager.FindByNameAsync("admin").Result == null)
+            {
+                var user = new ApplicationUser
+                {
+                    Email = "admin@azkel.org",
+                    UserName = "admin",
+                };
+                // Hopefully you don't expect that I will provide real password on GitHub public project, do you?
+                var dupa2 = userManager.CreateAsync(user, "password").Result;
+
+                if (dupa2.Succeeded)
+                {
+                    userManager.AddToRoleAsync(user, "Admin").Wait();
+                }
+            }
         }
     }
 }
